@@ -1,0 +1,269 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+
+  :root {
+    --primary-light: #1AC9FF;
+    --primary: #2D83EC;
+    --primary-dark: #1D5BA0;
+    --secondary-light: #F0F9FF;
+    --secondary: #E0F2FE;
+    --accent: #0EA5E9;
+    --black: #000000;
+    --white: #FFFFFF;
+  }
+}
+
+@layer components {
+  /* Gradient styles */
+  .gradient-bg {
+    @apply bg-gradient-to-r from-[#2D83EC] to-[#1AC9FF];
+  }
+  
+  .gradient-text {
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-[#2D83EC] to-[#1AC9FF];
+  }
+
+  .text-gradient {
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-[#2D83EC] to-[#1AC9FF];
+  }
+
+  .gradient-border {
+    @apply relative before:absolute before:inset-0 before:p-[1px] before:bg-gradient-to-r before:from-[#2D83EC] before:to-[#1AC9FF] before:rounded-lg before:-z-10 before:content-[''];
+  }
+
+  /* Card styles */
+  .card {
+    @apply bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden;
+  }
+
+  .card-black {
+    @apply bg-black rounded-xl shadow-sm overflow-hidden text-white;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-md hover:-translate-y-1;
+  }
+
+  .card-simple {
+    @apply bg-white rounded-lg p-4 border border-neutral-200;
+  }
+  
+  .card-simple-black {
+    @apply bg-black rounded-lg p-4 text-white;
+  }
+
+  /* Button styles */
+  .button-primary {
+    @apply gradient-bg text-white font-medium py-2 px-4 rounded-lg transition-transform duration-200 hover:scale-105 active:scale-95 shadow-sm;
+  }
+
+  .button-secondary {
+    @apply bg-white border border-neutral-200 text-gray-800 font-medium py-2 px-4 rounded-lg transition-transform duration-200 hover:border-blue-300 hover:shadow-sm active:scale-95;
+  }
+
+  .button-black {
+    @apply bg-[#000000] text-white font-medium py-2 px-4 rounded-lg transition-transform duration-200 hover:bg-neutral-800 active:scale-95 shadow-sm;
+  }
+
+  .button-outline {
+    @apply bg-transparent border border-[#2D83EC] text-[#2D83EC] font-medium py-2 px-4 rounded-lg transition-transform duration-200 hover:bg-blue-50 active:scale-95;
+  }
+
+  .button-icon {
+    @apply flex items-center justify-center p-2 rounded-full bg-blue-50 text-primary transition-all duration-200 hover:bg-blue-100;
+  }
+  
+  .button-icon-black {
+    @apply flex items-center justify-center p-2 rounded-full bg-black text-white transition-all duration-200 hover:bg-neutral-800;
+  }
+
+  /* Certificate styles */
+  .certificate-shimmer {
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.2) 20%,
+      rgba(255, 255, 255, 0.5) 60%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+  }
+  
+  .certificate-premium {
+    background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%, 
+                      transparent 50%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.1) 75%, 
+                      transparent 75%, transparent);
+    background-size: 20px 20px;
+  }
+  
+  .certificate-border-shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .certificate-border-shimmer::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(
+      from 0deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.4) 25%, 
+      rgba(255, 255, 255, 0) 50%
+    );
+    animation: rotate 4s linear infinite;
+    z-index: -1;
+  }
+
+  /* Animation utilities */
+  .animate-fade-in {
+    @apply animate-[fadeIn_0.5s_ease-in-out];
+  }
+
+  .animate-slide-up {
+    @apply animate-[slideUp_0.6s_ease-in-out];
+  }
+
+  .animate-slide-in {
+    @apply animate-[slideIn_0.5s_ease-in-out];
+  }
+
+  .animate-pulse-soft {
+    @apply animate-[pulseSoft_2s_infinite_ease-in-out];
+  }
+
+  /* Text and heading styles */
+  .section-title {
+    @apply text-xl font-bold mb-3 text-gray-800;
+  }
+  
+  .subsection-title {
+    @apply text-lg font-semibold mb-2 text-gray-700;
+  }
+  
+  .heading-lg {
+    @apply text-2xl font-bold text-gray-800;
+  }
+  
+  .heading-md {
+    @apply text-xl font-bold text-gray-800;
+  }
+  
+  .heading-sm {
+    @apply text-lg font-semibold text-gray-800;
+  }
+
+  /* Badge styles */
+  .badge {
+    @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium;
+  }
+  
+  .badge-primary {
+    @apply badge gradient-bg text-white;
+  }
+  
+  .badge-black {
+    @apply badge bg-black text-white;
+  }
+  
+  .badge-outline {
+    @apply badge bg-white border border-blue-200 text-blue-500;
+  }
+  
+  .badge-outline-black {
+    @apply badge bg-white border border-black text-black;
+  }
+  
+  .badge-success {
+    @apply badge bg-green-100 text-green-800;
+  }
+
+  /* Input styles */
+  .input-primary {
+    @apply w-full px-3 py-2 border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200 transition-all duration-200;
+  }
+
+  .input-search {
+    @apply px-4 py-2 pl-10 pr-4 rounded-full bg-white bg-opacity-10 border border-white border-opacity-20 text-white placeholder-gray-300 text-sm;
+  }
+
+  .input-dark {
+    @apply bg-neutral-800 text-white border-gray-700 placeholder-gray-500 focus:ring-blue-400;
+  }
+  
+  /* Form group */
+  .form-group {
+    @apply mb-4;
+  }
+  
+  .form-label {
+    @apply block text-sm font-medium text-gray-700 mb-1;
+  }
+}
+
+/* Keyframe animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulseSoft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
