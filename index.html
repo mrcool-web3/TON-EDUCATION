@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TON EDUCATION</title>
+    <!-- Add cache control to prevent loading issues -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
+    <!-- Preconnect to required domains -->
+    <link rel="preconnect" href="https://telegram.org">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    
+    <!-- Load Telegram WebApp SDK first -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tonconnect/sdk@latest/dist/tonconnect-sdk.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        /* [Keep all your existing styles exactly as they are] */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #2D83EC 0%, #1AC9FF 100%);
+            --ton-blue: #0088cc;
+            --dark-bg: #121212;
+            --light-bg: #ffffff;
+            --text-dark: #212529;
+            --text-light: #f8f9fa;
+        }
+        
+        [Your complete existing CSS...]
+        
+        .wallet-connected {
+            width: 12px;
+            height: 12px;
+            background: #28a745;
+            border-radius: 50%;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <!-- [Keep all your existing HTML structure exactly as is] -->
+    <div class="container py-3">
+        <!-- Loading Screen -->
+        <div id="loading" class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2">Loading TON Education...</p>
+            <div id="loading-fallback" style="display: none;">
+                <p class="text-danger mt-3">Taking longer than expected? <a href="javascript:location.reload()">Refresh</a></p>
+            </div>
+        </div>
+        
+        <!-- [Rest of your HTML remains unchanged...] -->
+        
+    </div>
+
+    <!-- Load Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- New Improved Script Section -->
+    <script>
+        // 1. TELEGRAM INITIALIZATION ===========================================
+        function initTelegramWebApp() {
+            // Safety check for Telegram WebApp SDK
+            if (!window.Telegram || !Telegram.WebApp) {
+                console.error('Telegram WebApp SDK not loaded!');
+                
+                // Create mock Telegram object for non-Telegram environments
+                window.Telegram = {
+                    WebApp: {
+                        ready: () => console.log('Mock Telegram ready'),
+                        expand: () => {
+                            console.log('Mock Telegram expand');
+                            document.documentElement.style.height = '100%';
+                            document.body.style.height = '100%';
+                        },
+                        initData: {},
+                        initDataUnsafe: {},
+                        showAlert: (msg) => alert(msg),
+                        version: '6.1+',
+                        isExpanded: false,
+                        platform: 'web',
+                        colorScheme: 'dark',
+                        themeParams: {}
+                    }
+                };
+                
+                // Force expand in non-Telegram env
+                setTimeout(() => {
+                    Telegram.WebApp.expand();
+                }, 300);
+            }
+            
+            // Initialize Telegram WebApp properly
+            try {
+                Telegram.WebApp.ready();
+                Telegram.WebApp.expand();
+                console.log('Telegram WebApp initialized:', Telegram.WebApp.version);
+            } catch (e) {
+                console.error('Telegram init error:', e);
+            }
+        }
+
+        // 2. MAIN APP INITIALIZATION ==========================================
+        function initApp() {
+            console.log('Initializing TON Education App...');
+            
+            // Set up loading timeout fallback
+            const loadingTimeout = setTimeout(() => {
+                document.getElementById('loading-fallback').style.display = 'block';
+                console.warn('Loading timeout - forcing app display');
+            }, 8000); // 8 second timeout
+            
+            // Set theme based on Telegram or system preference
+            const theme = Telegram.WebApp.colorScheme || 
+                         (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            document.body.setAttribute('data-theme', theme);
+            document.getElementById('darkModeSwitch').checked = theme === 'dark';
+            
+            // Set username from Telegram if available
+            if (Telegram.WebApp.initDataUnsafe?.user) {
+                const tgUser = Telegram.WebApp.initDataUnsafe.user;
+                const username = tgUser.username || tgUser.first_name || 'User';
+                document.getElementById('username').textContent = username;
+                document.getElementById('profileName').textContent = username;
+            }
+            
+            // Initialize TonConnect
+            const connector = new TonConnect.TonConnect({
+                manifestUrl: 'https://ton-education.app/tonconnect-manifest.json'
+            });
+            
+            // Load app data
+            loadAppData().finally(() => {
+                // Hide loading screen when done
+                clearTimeout(loadingTimeout);
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('app').style.display = 'block';
+                console.log('App initialized successfully');
+            });
+        }
+        
+        // 3. APP DATA LOADING =================================================
+        async function loadAppData() {
+            try {
+                // [Keep your existing loadUserData, renderCourses, etc. functions]
+                // But wrap them in Promises for better async handling
+                
+                // Example:
+                await Promise.all([
+                    loadUserData(),
+                    renderCourses(),
+                    renderCertificates()
+                ]);
+                
+            } catch (error) {
+                console.error('Failed to load app data:', error);
+                Telegram.WebApp.showAlert('Failed to load data. Please try again.');
+            }
+        }
+        
+        // [Keep all your existing functions but add async/await where needed]
+        async function loadUserData() {
+            // Your existing code, but can now use await for API calls
+        }
+        
+        function renderCourses() {
+            // Your existing code
+        }
+        
+        function renderCertificates() {
+            // Your existing code
+        }
+        
+        // 4. STARTUP SEQUENCE =================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize Telegram first
+            initTelegramWebApp();
+            
+            // Then initialize the app with slight delay
+            setTimeout(initApp, 300);
+        });
+        
+        // Final fallback in case DOMContentLoaded doesn't fire
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            initTelegramWebApp();
+            setTimeout(initApp, 300);
+        }
+    </script>
+</body>
+  </html>
